@@ -1,3 +1,6 @@
+// Renderizado dinámico: requiere DB en cada request
+export const dynamic = "force-dynamic";
+
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -7,8 +10,8 @@ import Footer from "@/components/Footer";
 import { readActivities } from "@/lib/activitiesServer";
 import mainEventData from "@/data/mainEvent.json";
 
-export default function Home() {
-  const activities = readActivities();
+export default async function Home() {
+  const activities = await readActivities();
 
   return (
     <>

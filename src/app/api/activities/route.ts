@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readActivities, writeActivities } from "@/lib/activitiesServer";
+import { readActivities, createActivity } from "@/lib/activitiesServer";
 import { type Activity } from "@/lib/activities";
 import { cookies } from "next/headers";
 
 export async function GET() {
-  const activities = readActivities();
+  const activities = await readActivities();
   return NextResponse.json(activities);
 }
 
@@ -16,12 +16,6 @@ export async function POST(req: NextRequest) {
   }
 
   const body = (await req.json()) as Omit<Activity, "id">;
-  const activities = readActivities();
-  const newActivity: Activity = {
-    ...body,
-    id: String(Date.now()),
-  };
-  activities.push(newActivity);
-  writeActivities(activities);
+  const newActivity = await createActivity(body);
   return NextResponse.json(newActivity, { status: 201 });
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { readActivities, writeActivities } from "@/lib/activitiesServer";
+import { updateActivity, deleteActivity } from "@/lib/activitiesServer";
 import { type Activity } from "@/lib/activities";
 import { cookies } from "next/headers";
 
@@ -18,15 +18,14 @@ export async function PUT(
   }
 
   const { id } = await params;
-  const body = (await req.json()) as Activity;
-  const activities = readActivities();
-  const idx = activities.findIndex((a) => a.id === id);
-  if (idx === -1) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const body = (await req.json()) as Omit<Activity, "id">;
+
+  try {
+    const updated = await updateActivity(id, body);
+    return NextResponse.json(updated);
+  } catch {
+    return NextResponse.json({ error: "Actividad no encontrada" }, { status: 404 });
   }
-  activities[idx] = { ...body, id };
-  writeActivities(activities);
-  return NextResponse.json(activities[idx]);
 }
 
 export async function DELETE(
@@ -38,11 +37,6 @@ export async function DELETE(
   }
 
   const { id } = await params;
-  const activities = readActivities();
-  const filtered = activities.filter((a) => a.id !== id);
-  if (filtered.length === activities.length) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-  writeActivities(filtered);
+  await deleteActivity(id);
   return NextResponse.json({ ok: true });
 }
