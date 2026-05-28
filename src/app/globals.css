@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-chapi-blue: #556EFF;
+  --color-chapi-orange: #f96814;
+  --color-chapi-yellow: #F2E85C;
+  --color-chapi-cream: #F2DBAE;
+  --color-chapi-magenta: #EF2EF2;
+  --color-chapi-dark: #08080F;
+  --color-chapi-dark-2: #0F0F1E;
+
+  --font-display: var(--font-anton);
+  --font-sans: var(--font-barlow);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Blue glow pulse for sparkle elements */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+}
+
+/* Selection color */
+::selection {
+  background-color: #556EFF;
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #08080F;
+}
+::-webkit-scrollbar-thumb {
+  background: #556EFF40;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #556EFF80;
+}

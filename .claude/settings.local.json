@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /Users/imacderulos/Downloads/ | grep -i chapi)",
+      "Bash(brew install *)",
+      "Bash(pdftoppm --version)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(pdftotext \"/Users/imacderulos/Downloads/Manual De Marca Chapiverso.pdf\" -)",
+      "Bash(npx create-next-app@latest chapiverso --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --yes)",
+      "Bash(npm cache *)",
+      "Bash(npm install *)",
+      "Bash(mkdir -p /Users/imacderulos/Downloads/chapiverso/src/data /Users/imacderulos/Downloads/chapiverso/src/components /Users/imacderulos/Downloads/chapiverso/src/lib /Users/imacderulos/Downloads/chapiverso/src/app/api/activities/\\\\[id\\\\] /Users/imacderulos/Downloads/chapiverso/src/app/api/auth /Users/imacderulos/Downloads/chapiverso/src/app/admin)",
+      "Bash(npm run *)",
+      "Bash(mkdir -p /Users/imacderulos/Downloads/chapiverso/.claude)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(kill 88048)",
+      "Bash(gh auth *)"
+    ]
+  }
+}

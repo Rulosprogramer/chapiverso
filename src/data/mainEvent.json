@@ -1,0 +1,106 @@
+{
+  "days": [
+    {
+      "date": "2025-06-04",
+      "label": "Miércoles 4",
+      "activities": [
+        {
+          "time": "16:00",
+          "title": "Apertura Oficial Chapiverso",
+          "category": "comunidad",
+          "location": "Plaza La Playa",
+          "description": "Inauguración del primer Chapiverso con palabras de bienvenida y música en vivo."
+        },
+        {
+          "time": "17:30",
+          "title": "Desfile de Moda Local",
+          "category": "moda",
+          "location": "Pasarela La Playa",
+          "description": "Diseñadores emergentes de Bogotá presentan sus colecciones más recientes."
+        },
+        {
+          "time": "19:00",
+          "title": "Performances de Circo",
+          "category": "circo",
+          "location": "Plaza Central",
+          "description": "Acrobacias, malabares y teatro físico en el espacio público."
+        },
+        {
+          "time": "21:00",
+          "title": "DJ Set: Electrónica Colombiana",
+          "category": "música",
+          "location": "Escenario Principal",
+          "description": "Los mejores DJs locales mezclan sonidos urbanos y electrónicos."
+        }
+      ]
+    },
+    {
+      "date": "2025-06-05",
+      "label": "Jueves 5",
+      "activities": [
+        {
+          "time": "10:00",
+          "title": "Feria de Moda y Diseño",
+          "category": "moda",
+          "location": "La Playa",
+          "description": "Expositores de moda independiente y diseño sostenible de toda Bogotá."
+        },
+        {
+          "time": "12:00",
+          "title": "Taller: Huerta Urbana",
+          "category": "huertas",
+          "location": "Jardines La Playa",
+          "description": "Aprende a cultivar en espacios urbanos con maestros locales."
+        },
+        {
+          "time": "15:00",
+          "title": "Conversatorio Comunidad LGBTI+",
+          "category": "comunidad",
+          "location": "Auditorio Chapiverso",
+          "description": "Diálogo abierto sobre cultura, identidad y espacio público en Bogotá."
+        },
+        {
+          "time": "20:00",
+          "title": "Concierto: Fusión Colombiana",
+          "category": "música",
+          "location": "Escenario Principal",
+          "description": "Fusión de ritmos tradicionales colombianos con sonidos contemporáneos."
+        }
+      ]
+    },
+    {
+      "date": "2025-06-06",
+      "label": "Viernes 6",
+      "activities": [
+        {
+          "time": "11:00",
+          "title": "Mercado de Arte y Artesanías",
+          "category": "comunidad",
+          "location": "La Playa",
+          "description": "Arte, artesanías y creaciones de artistas y colectivos bogotanos."
+        },
+        {
+          "time": "14:00",
+          "title": "Show de Danza Contemporánea",
+          "category": "teatro",
+          "location": "Plaza Central",
+          "description": "Compañías de danza independientes presentan piezas de creación propia."
+        },
+        {
+          "time": "17:00",
+          "title": "Teatro Inmersivo: La Ciudad",
+          "category": "teatro",
+          "location": "Calles La Playa",
+          "description": "Performance teatral que recorre el barrio y rescata sus historias."
+        },
+        {
+          "time": "20:00",
+          "title": "Gran Concierto de Cierre",
+          "category": "música",
+          "location": "Escenario Principal",
+          "description": "El cierre épico del primer Chapiverso con los artistas más esperados."
+        }
+      ]
+    }
+  ]
+}
