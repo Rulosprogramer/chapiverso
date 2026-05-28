@@ -36,6 +36,16 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local agent config
+.claude/
+
+# turbopack cache
+.turbo
+
+# editor
+.vscode/settings.json
+.idea/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
