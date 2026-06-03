@@ -10,8 +10,7 @@ export default function HorariosPoster() {
             Programa Oficial
           </p>
           <h2 className="font-[family-name:var(--font-anton)] text-4xl md:text-5xl text-white uppercase leading-none">
-            CRONOGRAMA{" "}
-            <span className="text-[#F2E85C]">COMPLETO</span>
+            <span className="text-[#F2E85C]">CRONOGRAMA</span>
           </h2>
         </div>
 
