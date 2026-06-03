@@ -1,104 +1,97 @@
 {
   "days": [
     {
-      "date": "2025-06-04",
-      "label": "Miércoles 4",
+      "date": "2026-06-04",
+      "label": "Jueves 4 — Evento Principal",
       "activities": [
         {
-          "time": "16:00",
-          "title": "Apertura Oficial Chapiverso",
-          "category": "comunidad",
-          "location": "Plaza La Playa",
-          "description": "Inauguración del primer Chapiverso con palabras de bienvenida y música en vivo."
+          "time": "15:00 – 17:00",
+          "title": "Wasp: Tour del Graffiti",
+          "category": "teatro",
+          "location": "Sector La Playa",
+          "description": "Recorrido por el graffiti del barrio, intervención de graffiti en vivo y taller de serigrafía con el colectivo Wasp."
         },
         {
-          "time": "17:30",
-          "title": "Desfile de Moda Local",
+          "time": "16:00 – 17:30",
+          "title": "Relevent: Pasarela Escénica",
           "category": "moda",
-          "location": "Pasarela La Playa",
-          "description": "Diseñadores emergentes de Bogotá presentan sus colecciones más recientes."
+          "location": "Sector La Playa",
+          "description": "Pasarela performática con intervenciones visuales e integración artística como cierre escénico de moda."
         },
         {
-          "time": "19:00",
-          "title": "Performances de Circo",
+          "time": "18:00 – 19:00",
+          "title": "Flashmob Chapiverso",
           "category": "circo",
-          "location": "Plaza Central",
-          "description": "Acrobacias, malabares y teatro físico en el espacio público."
+          "location": "Parque de los Hippies — Punto Principal",
+          "description": "Flashmob colectivo seguido de danza, performance y circo. Música en vivo: mariachis, llanera y vallenato. Live set con activación audiovisual."
         },
         {
-          "time": "21:00",
-          "title": "DJ Set: Electrónica Colombiana",
+          "time": "19:00 – 19:30",
+          "title": "Recorrido Artístico — Carrera 13",
+          "category": "circo",
+          "location": "Carrera 13",
+          "description": "Pasacalle circense itinerante por la Carrera 13: serenatas, circo en movimiento e interacción directa con transeúntes."
+        },
+        {
+          "time": "19:00 – 21:00",
+          "title": "Horda Free: Batallas de Rap",
           "category": "música",
-          "location": "Escenario Principal",
-          "description": "Los mejores DJs locales mezclan sonidos urbanos y electrónicos."
+          "location": "Parque de los Hippies",
+          "description": "Batallas de free-style abiertas al público. Extensión musical y participación comunitaria en el parque."
+        },
+        {
+          "time": "19:30 – 21:00",
+          "title": "Latino Power: Punto Intermedio",
+          "category": "música",
+          "location": "Latino Power — Punto Intermedio",
+          "description": "Llegada del recorrido artístico, interacción con el público y extensión musical en el punto intermedio del sector."
         }
       ]
     },
     {
-      "date": "2025-06-05",
-      "label": "Jueves 5",
+      "date": "2026-06-05",
+      "label": "Viernes 5 — Post-evento",
       "activities": [
         {
-          "time": "10:00",
-          "title": "Feria de Moda y Diseño",
+          "time": "15:00 – 20:00",
+          "title": "Taller de Customización",
           "category": "moda",
-          "location": "La Playa",
-          "description": "Expositores de moda independiente y diseño sostenible de toda Bogotá."
+          "location": "Casa Joya",
+          "description": "Taller práctico de customización de conjuntos. Transforma y personaliza tu ropa con técnicas de diseño independiente."
         },
         {
-          "time": "12:00",
-          "title": "Taller: Huerta Urbana",
-          "category": "huertas",
-          "location": "Jardines La Playa",
-          "description": "Aprende a cultivar en espacios urbanos con maestros locales."
-        },
-        {
-          "time": "15:00",
-          "title": "Conversatorio Comunidad LGBTI+",
+          "time": "17:30 – 19:00",
+          "title": "Charla: Creatividad y Transformación",
           "category": "comunidad",
-          "location": "Auditorio Chapiverso",
-          "description": "Diálogo abierto sobre cultura, identidad y espacio público en Bogotá."
+          "location": "Artestudio",
+          "description": "Conversatorio sobre creatividad y transformación social, acompañado de muestra audiovisual de artistas del colectivo."
         },
         {
-          "time": "20:00",
-          "title": "Concierto: Fusión Colombiana",
+          "time": "18:00 – 01:00",
+          "title": "Noche LUCKY: DJ de Vinilos",
           "category": "música",
-          "location": "Escenario Principal",
-          "description": "Fusión de ritmos tradicionales colombianos con sonidos contemporáneos."
+          "location": "LUCKY",
+          "description": "Apertura musical con DJ de vinilos y visuales en vivo. La noche más larga del Chapiverso en el corazón de Chapinero."
         }
       ]
     },
     {
-      "date": "2025-06-06",
-      "label": "Viernes 6",
+      "date": "2026-06-06",
+      "label": "Sábado 6 — Cierre Chapiverso",
       "activities": [
         {
-          "time": "11:00",
-          "title": "Mercado de Arte y Artesanías",
+          "time": "12:00 – 14:00",
+          "title": "Paralaje: Laboratorio Creativo",
           "category": "comunidad",
-          "location": "La Playa",
-          "description": "Arte, artesanías y creaciones de artistas y colectivos bogotanos."
+          "location": "Paralaje — Laboratorio Creativo",
+          "description": "Proyección audiovisual, charla con Erika Niño y conversatorio sobre innovación y gamificación con Ana María Morales."
         },
         {
-          "time": "14:00",
-          "title": "Show de Danza Contemporánea",
-          "category": "teatro",
-          "location": "Plaza Central",
-          "description": "Compañías de danza independientes presentan piezas de creación propia."
-        },
-        {
-          "time": "17:00",
-          "title": "Teatro Inmersivo: La Ciudad",
-          "category": "teatro",
-          "location": "Calles La Playa",
-          "description": "Performance teatral que recorre el barrio y rescata sus historias."
-        },
-        {
-          "time": "20:00",
-          "title": "Gran Concierto de Cierre",
-          "category": "música",
-          "location": "Escenario Principal",
-          "description": "El cierre épico del primer Chapiverso con los artistas más esperados."
+          "time": "14:00 – 18:00",
+          "title": "Huerta Alison: Activación Comunitaria",
+          "category": "huertas",
+          "location": "Huerta Alison",
+          "description": "Activación comunitaria con presentación musical, siembra colectiva y taller de intervención de materas. Arte y naturaleza juntos."
         }
       ]
     }
