@@ -8,43 +8,43 @@
           "time": "15:00 – 17:00",
           "title": "Wasp: Tour del Graffiti",
           "category": "teatro",
-          "location": "Sector La Playa",
-          "description": "Recorrido por el graffiti del barrio, intervención de graffiti en vivo y taller de serigrafía con el colectivo Wasp."
+          "location": "Calle 58 a Calle 60 — Sector La Playa",
+          "description": "Tour del Graffiti en vivo por el sector. Taller de serigrafía para participantes."
         },
         {
           "time": "16:00 – 17:30",
           "title": "Relevent: Pasarela Escénica",
           "category": "moda",
           "location": "Sector La Playa",
-          "description": "Pasarela performática con intervenciones visuales e integración artística como cierre escénico de moda."
+          "description": "Pasarela de moda de las marcas RAGWEED y JEREZ DESIGN. Proyección de video experimental de sensaciones urbanas de Club El Muro."
         },
         {
           "time": "18:00 – 19:00",
           "title": "Flashmob Chapiverso",
           "category": "circo",
-          "location": "Parque de los Hippies — Punto Principal",
-          "description": "Flashmob colectivo seguido de danza, performance y circo. Música en vivo: mariachis, llanera y vallenato. Live set con activación audiovisual."
+          "location": "Calle 60 con Cra 7 — Parque de los Hippies",
+          "description": "Flashmob Chapiverso. Intervenciones de danza, performance y circo. Música en vivo: mariachis, llanera, vallenato. Live set y muestra de arte urbano en vivo."
         },
         {
           "time": "19:00 – 19:30",
           "title": "Recorrido Artístico — Carrera 13",
           "category": "circo",
           "location": "Carrera 13",
-          "description": "Pasacalle circense itinerante por la Carrera 13: serenatas, circo en movimiento e interacción directa con transeúntes."
+          "description": "Recorrido artístico itinerante por la Carrera 13. Pasacalle circense, serenatas e interacción con transeúntes."
         },
         {
           "time": "19:00 – 21:00",
-          "title": "Horda Free: Batallas de Rap",
+          "title": "Horda Free: Batallas de Free",
           "category": "música",
-          "location": "Parque de los Hippies",
-          "description": "Batallas de free-style abiertas al público. Extensión musical y participación comunitaria en el parque."
+          "location": "Calle 60 con Cra 7 — Parque de los Hippies",
+          "description": "Batallas de Free abiertas al público. Extensión musical con mariachis, vallenato, boleros y llanera."
         },
         {
           "time": "19:30 – 21:00",
-          "title": "Latino Power: Punto Intermedio",
+          "title": "Latino Power",
           "category": "música",
-          "location": "Latino Power — Punto Intermedio",
-          "description": "Llegada del recorrido artístico, interacción con el público y extensión musical en el punto intermedio del sector."
+          "location": "Calle 58 #13-98 — Latino Power",
+          "description": "Llegada del recorrido artístico. Muestra artística de músicos de La Playa: mariachis, vallenato, boleros y llanera."
         }
       ]
     },
@@ -54,24 +54,24 @@
       "activities": [
         {
           "time": "15:00 – 20:00",
-          "title": "Taller de Customización",
+          "title": "Taller de Customización DIY",
           "category": "moda",
-          "location": "Casa Joya",
-          "description": "Taller práctico de customización de conjuntos. Transforma y personaliza tu ropa con técnicas de diseño independiente."
+          "location": "Calle 48 # 9-48 — Conjuntos Accesorios",
+          "description": "Taller de customización DIY de conjuntos y accesorios. Transforma tu ropa con técnicas de diseño independiente."
         },
         {
           "time": "17:30 – 19:00",
-          "title": "Charla: Creatividad y Transformación",
+          "title": "Charla: 4 Décadas de Creación",
           "category": "comunidad",
-          "location": "Artestudio",
-          "description": "Conversatorio sobre creatividad y transformación social, acompañado de muestra audiovisual de artistas del colectivo."
+          "location": "Cra 8B #57-32 — Artestudio",
+          "description": "Charla «4 décadas de creación y transformación» seguida de muestra audiovisual del colectivo."
         },
         {
           "time": "18:00 – 01:00",
-          "title": "Noche LUCKY: DJ de Vinilos",
+          "title": "Noche LUCKY: Vinyl Set",
           "category": "música",
-          "location": "LUCKY",
-          "description": "Apertura musical con DJ de vinilos y visuales en vivo. La noche más larga del Chapiverso en el corazón de Chapinero."
+          "location": "Calle 59 # 13-02 — LUCKY",
+          "description": "Vinyl set — sello sonoro del barrio. Lado A: escucha y contexto. Lado B: acción y creación. Invitados especiales."
         }
       ]
     },
@@ -81,17 +81,17 @@
       "activities": [
         {
           "time": "12:00 – 14:00",
-          "title": "Paralaje: Laboratorio Creativo",
+          "title": "Paralaje: Memoria ChapiVerso",
           "category": "comunidad",
-          "location": "Paralaje — Laboratorio Creativo",
-          "description": "Proyección audiovisual, charla con Erika Niño y conversatorio sobre innovación y gamificación con Ana María Morales."
+          "location": "Calle 55 # 7-15 — Paralaje",
+          "description": "Proyección de material audiovisual y memoria de actividades de ChapiVerso en el Laboratorio Creativo Paralaje."
         },
         {
           "time": "14:00 – 18:00",
-          "title": "Huerta Alison: Activación Comunitaria",
+          "title": "Huerta Alison: Arte y Comunidad",
           "category": "huertas",
-          "location": "Huerta Alison",
-          "description": "Activación comunitaria con presentación musical, siembra colectiva y taller de intervención de materas. Arte y naturaleza juntos."
+          "location": "Calle 60 con Cra 7 — Huerta Alison",
+          "description": "ChapiVerso extendiéndose hacia raíces, arte y comunidad. Presentación musical, taller de siembra colectiva y taller de stencil."
         }
       ]
     }

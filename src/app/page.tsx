@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import MainEvent from "@/components/MainEvent";
+import HorariosPoster from "@/components/HorariosPoster";
 import Schedule from "@/components/Schedule";
 import Footer from "@/components/Footer";
 import { readActivities } from "@/lib/activitiesServer";
@@ -20,6 +21,7 @@ export default async function Home() {
         <Hero />
         <About />
         <MainEvent days={mainEventData.days} />
+        <HorariosPoster />
         <Schedule activities={activities} />
       </main>
       <Footer />
