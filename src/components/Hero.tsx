@@ -51,7 +51,7 @@ export default function Hero() {
 
         <div
           ref={titleRef}
-          className="w-[85vw] sm:w-[72vw] md:w-[62vw] lg:w-[54vw] xl:w-[46vw] my-4 drop-shadow-2xl"
+          className="w-[85vw] sm:w-[72vw] md:w-[62vw] lg:w-[54vw] xl:w-[46vw] mb-0 drop-shadow-2xl"
         >
           <Image
             src="/logo-chapiverso-white.png"
@@ -64,15 +64,20 @@ export default function Hero() {
         </div>
 
         {/* Date badges */}
-        <div className="flex items-center gap-2 md:gap-3 mb-4 flex-wrap justify-center">
-          {["4", "5", "6"].map((day, i) => (
-            <span
-              key={day}
-              className="px-4 md:px-6 py-1.5 md:py-2 bg-[#F2E85C] text-[#3D4FE0] font-[family-name:var(--font-anton)] text-lg md:text-2xl rounded-full leading-none font-bold"
-            >
-              {i === 0 ? `JUNIO ${day}` : day}
-            </span>
-          ))}
+        <div className="flex flex-col items-center gap-1 mb-4">
+          <p className="font-[family-name:var(--font-barlow)] text-[#F2E85C] text-xs tracking-[0.4em] uppercase font-semibold">
+            JUNIO
+          </p>
+          <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-center">
+            {["4", "5", "6"].map((day) => (
+              <span
+                key={day}
+                className="px-4 md:px-6 py-1.5 md:py-2 bg-[#F2E85C] text-[#3D4FE0] font-[family-name:var(--font-anton)] text-lg md:text-2xl rounded-full leading-none font-bold"
+              >
+                {day}
+              </span>
+            ))}
+          </div>
         </div>
 
         <p className="font-[family-name:var(--font-barlow)] text-xs md:text-sm text-white/70 tracking-[0.25em] uppercase mb-5">
