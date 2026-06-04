@@ -64,8 +64,8 @@ export default function Hero() {
         </div>
 
         {/* Date badges */}
-        <div className="flex flex-col items-center gap-1 mb-4">
-          <p className="font-[family-name:var(--font-barlow)] text-[#F2E85C] text-xs tracking-[0.4em] uppercase font-semibold">
+        <div className="flex flex-col items-center gap-1 mb-4 -mt-[5px]">
+          <p className="font-[family-name:var(--font-barlow)] text-[#F2E85C] text-base md:text-lg tracking-[0.4em] uppercase font-semibold">
             JUNIO
           </p>
           <div className="flex items-center gap-2 md:gap-3 flex-wrap justify-center">
