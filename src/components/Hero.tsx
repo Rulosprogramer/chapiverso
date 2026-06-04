@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
+
 const MARQUEE_ITEMS = [
   "MÚSICA", "TEATRO", "MODA", "COMUNIDAD", "HUERTAS", "CIRCO", "BARES",
   "MÚSICA", "TEATRO", "MODA", "COMUNIDAD", "HUERTAS", "CIRCO", "BARES",
@@ -40,11 +41,29 @@ export default function Hero() {
       <div className="absolute top-[10%] right-[25%] text-white/20 text-4xl select-none">◦</div>
       <div className="absolute top-[70%] left-[15%] text-white/15 text-3xl select-none">◦</div>
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 pt-32 pb-8 flex-1 justify-center">
-        <p className="font-[family-name:var(--font-barlow)] text-xs md:text-sm text-white/60 tracking-[0.4em] uppercase mb-3">
-          PULEP JKW113 · Bogotá, Colombia
+      {/* Institutional logos strip */}
+      <div className="relative z-10 pt-20 md:pt-24 px-4 md:px-8 flex items-center justify-between">
+        <Image
+          src="/logo-mi-casa-white.png"
+          alt="Mi Casa Es Mi Casa"
+          width={4500}
+          height={2515}
+          className="w-24 md:w-32 h-auto opacity-90"
+        />
+        <p className="font-[family-name:var(--font-barlow)] text-[10px] md:text-xs text-white/50 tracking-[0.35em] uppercase">
+          PULEP JKW113
         </p>
+        <Image
+          src="/logo-bogota-white.png"
+          alt="Bogotá"
+          width={4500}
+          height={2445}
+          className="w-24 md:w-32 h-auto opacity-90"
+        />
+      </div>
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 pb-8 flex-1 justify-center">
         <p className="font-[family-name:var(--font-barlow)] text-sm md:text-base text-white/80 tracking-[0.25em] uppercase mb-1">
           Bienvenidos a
         </p>
