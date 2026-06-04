@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import type { Activity } from "@/lib/activities";
 
 const EMPTY_FORM: Omit<Activity, "id"> = {
@@ -14,39 +15,55 @@ const EMPTY_FORM: Omit<Activity, "id"> = {
   featured: false,
 };
 
-const CATEGORIES = ["música", "teatro", "moda", "comunidad", "huertas", "circo", "bares"];
+const CATEGORIES = [
+  { value: "música",    label: "🎵 Música" },
+  { value: "teatro",   label: "🎭 Teatro" },
+  { value: "moda",     label: "👗 Moda" },
+  { value: "comunidad",label: "🤝 Comunidad" },
+  { value: "huertas",  label: "🌱 Huertas" },
+  { value: "circo",    label: "🎪 Circo" },
+  { value: "bares",    label: "🍺 Bares" },
+];
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return "";
+  const [y, m, d] = dateStr.split("-");
+  const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  return `${d} ${months[parseInt(m) - 1]} ${y}`;
+}
+
+type Toast = { msg: string; type: "ok" | "err" };
 
 export default function AdminPage() {
-  const [authed, setAuthed] = useState<boolean | null>(null);
-  const [password, setPassword] = useState("");
+  const [authed, setAuthed]       = useState<boolean | null>(null);
+  const [password, setPassword]   = useState("");
   const [loginError, setLoginError] = useState("");
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [form, setForm] = useState<Omit<Activity, "id">>(EMPTY_FORM);
+  const [form, setForm]           = useState<Omit<Activity, "id">>(EMPTY_FORM);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [showForm, setShowForm]   = useState(false);
+  const [saving, setSaving]       = useState(false);
+  const [deleteId, setDeleteId]   = useState<string | null>(null);
+  const [toast, setToast]         = useState<Toast | null>(null);
+
+  function showToast(msg: string, type: "ok" | "err" = "ok") {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3000);
+  }
 
   const fetchActivities = useCallback(async () => {
     const res = await fetch("/api/activities");
-    if (res.ok) {
-      const data = await res.json();
-      setActivities(data);
-    }
+    if (res.ok) setActivities(await res.json());
   }, []);
 
   useEffect(() => {
     fetch("/api/auth/verify")
       .then(async (res) => {
-        if (res.ok) {
-          setAuthed(true);
-          fetchActivities();
-        } else {
-          setAuthed(false);
-        }
+        if (res.ok) { setAuthed(true); fetchActivities(); }
+        else setAuthed(false);
       })
       .catch(() => setAuthed(false));
-  }, []);
+  }, [fetchActivities]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -56,12 +73,8 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
     });
-    if (res.ok) {
-      setAuthed(true);
-      fetchActivities();
-    } else {
-      setLoginError("Contraseña incorrecta.");
-    }
+    if (res.ok) { setAuthed(true); fetchActivities(); }
+    else setLoginError("Contraseña incorrecta. Intenta de nuevo.");
   }
 
   async function handleLogout() {
@@ -73,30 +86,38 @@ export default function AdminPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    if (editingId) {
-      await fetch(`/api/activities/${editingId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, id: editingId }),
-      });
-    } else {
-      await fetch("/api/activities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+    try {
+      if (editingId) {
+        await fetch(`/api/activities/${editingId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...form, id: editingId }),
+        });
+        showToast("✓ Actividad actualizada");
+      } else {
+        await fetch("/api/activities", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        showToast("✓ Actividad publicada");
+      }
+      setShowForm(false);
+      setEditingId(null);
+      setForm(EMPTY_FORM);
+      fetchActivities();
+    } catch {
+      showToast("Error al guardar", "err");
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
-    setShowForm(false);
-    setEditingId(null);
-    setForm(EMPTY_FORM);
-    fetchActivities();
   }
 
   async function handleDelete(id: string) {
     await fetch(`/api/activities/${id}`, { method: "DELETE" });
     setDeleteId(null);
     fetchActivities();
+    showToast("Actividad eliminada");
   }
 
   function openEdit(act: Activity) {
@@ -114,105 +135,149 @@ export default function AdminPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  /* ── Loading ── */
   if (authed === null) {
     return (
       <div className="min-h-screen bg-[#08080F] flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-[#556EFF] border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-[#556EFF] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
+  /* ── Login ── */
   if (!authed) {
     return (
       <div className="min-h-screen bg-[#08080F] flex items-center justify-center px-4">
         <div className="w-full max-w-sm">
-          <h1 className="font-[family-name:var(--font-anton)] text-3xl text-white text-center uppercase tracking-widest mb-2">
-            CHAPIVERSO
-          </h1>
-          <p className="font-[family-name:var(--font-barlow)] text-white/40 text-center text-sm uppercase tracking-widest mb-8">
-            Panel de administración
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <div className="w-48">
+              <Image
+                src="/logo-chapiverso-white.png"
+                alt="Chapiverso"
+                width={8334}
+                height={8334}
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+
+          <p className="font-[family-name:var(--font-barlow)] text-white/40 text-center text-xs uppercase tracking-[0.3em] mb-8">
+            Panel de publicación
           </p>
+
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <input
               type="password"
               placeholder="Contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-[#0F0F1E] border border-white/15 text-white placeholder-white/30 rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+              className="w-full px-4 py-3 bg-[#0F0F1E] border border-white/15 text-white placeholder-white/30 rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)] text-base"
               autoFocus
             />
             {loginError && (
-              <p className="text-red-400 text-sm font-[family-name:var(--font-barlow)]">
+              <p className="text-red-400 text-sm font-[family-name:var(--font-barlow)] text-center">
                 {loginError}
               </p>
             )}
             <button
               type="submit"
-              className="w-full py-3 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold uppercase tracking-widest text-sm hover:bg-[#6B7FFF] transition-all rounded-sm"
+              className="w-full py-3 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold uppercase tracking-widest text-sm hover:bg-[#6B7FFF] transition-all rounded-lg"
             >
-              Entrar
+              Ingresar
             </button>
           </form>
-          <p className="text-white/20 text-xs text-center mt-6 font-[family-name:var(--font-barlow)]">
-            La contraseña está configurada en .env.local
+
+          <p className="text-white/20 text-xs text-center mt-8 font-[family-name:var(--font-barlow)]">
+            ¿Olvidaste la contraseña? Contacta al equipo Chapiverso.
           </p>
         </div>
       </div>
     );
   }
 
+  /* ── Dashboard ── */
   return (
     <div className="min-h-screen bg-[#08080F] text-white">
-      {/* Top bar */}
-      <header className="bg-[#0F0F1E] border-b border-white/8 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <a
-            href="/"
-            className="font-[family-name:var(--font-anton)] text-white text-xl tracking-widest hover:text-[#F2E85C] transition-colors"
-          >
-            CHAPIVERSO
-          </a>
-          <span className="text-white/20">·</span>
-          <span className="font-[family-name:var(--font-barlow)] text-white/50 text-sm uppercase tracking-widest">
-            Admin
+
+      {/* Toast */}
+      {toast && (
+        <div className={`fixed top-5 right-5 z-50 px-5 py-3 rounded-xl text-sm font-[family-name:var(--font-barlow)] font-semibold shadow-xl transition-all ${
+          toast.type === "ok"
+            ? "bg-[#556EFF] text-white"
+            : "bg-red-500 text-white"
+        }`}>
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="bg-[#0F0F1E] border-b border-white/8 px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+        <div className="flex items-center gap-3">
+          <div className="w-28">
+            <Image
+              src="/logo-chapiverso-white.png"
+              alt="Chapiverso"
+              width={8334}
+              height={8334}
+              className="w-full h-auto"
+            />
+          </div>
+          <span className="font-[family-name:var(--font-barlow)] text-white/30 text-xs uppercase tracking-widest hidden sm:block">
+            · Panel de publicación
           </span>
         </div>
         <div className="flex items-center gap-4">
           <a
             href="/"
+            target="_blank"
             className="font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest hover:text-white transition-colors"
           >
-            Ver sitio
+            Ver sitio ↗
           </a>
           <button
             onClick={handleLogout}
-            className="font-[family-name:var(--font-barlow)] text-white/40 text-xs uppercase tracking-widest hover:text-red-400 transition-colors"
+            className="font-[family-name:var(--font-barlow)] text-white/30 text-xs uppercase tracking-widest hover:text-red-400 transition-colors"
           >
-            Cerrar sesión
+            Salir
           </button>
         </div>
       </header>
 
-      <div className="max-w-5xl mx-auto px-6 py-10">
-        {/* Form */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
+
+        {/* Form panel */}
         {showForm && (
-          <div className="mb-10 p-6 bg-[#0F0F1E] border border-white/12 rounded-xl">
-            <h2 className="font-[family-name:var(--font-anton)] text-xl text-white uppercase tracking-wider mb-6">
-              {editingId ? "Editar actividad" : "Nueva actividad"}
-            </h2>
+          <div className="mb-10 p-6 md:p-8 bg-[#0F0F1E] border border-[#556EFF]/30 rounded-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="font-[family-name:var(--font-anton)] text-xl text-white uppercase tracking-wider">
+                {editingId ? "✏️  Editar actividad" : "➕  Nueva actividad"}
+              </h2>
+              <button
+                onClick={() => { setShowForm(false); setEditingId(null); setForm(EMPTY_FORM); }}
+                className="text-white/30 hover:text-white transition-colors text-lg leading-none"
+                aria-label="Cerrar"
+              >
+                ✕
+              </button>
+            </div>
+
             <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Título */}
               <div className="md:col-span-2">
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
-                  Título *
+                  Título de la actividad *
                 </label>
                 <input
                   required
+                  placeholder="Ej: Taller de serigrafía"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white placeholder-white/20 rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 />
               </div>
 
+              {/* Fecha */}
               <div>
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
                   Fecha *
@@ -222,10 +287,11 @@ export default function AdminPage() {
                   required
                   value={form.date}
                   onChange={(e) => setForm({ ...form, date: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 />
               </div>
 
+              {/* Categoría */}
               <div>
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
                   Categoría *
@@ -234,16 +300,17 @@ export default function AdminPage() {
                   required
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 >
                   {CATEGORIES.map((c) => (
-                    <option key={c} value={c} className="bg-[#08080F]">
-                      {c}
+                    <option key={c.value} value={c.value} className="bg-[#08080F]">
+                      {c.label}
                     </option>
                   ))}
                 </select>
               </div>
 
+              {/* Hora inicio */}
               <div>
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
                   Hora inicio
@@ -252,10 +319,11 @@ export default function AdminPage() {
                   type="time"
                   value={form.time}
                   onChange={(e) => setForm({ ...form, time: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 />
               </div>
 
+              {/* Hora fin */}
               <div>
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
                   Hora fin
@@ -264,61 +332,65 @@ export default function AdminPage() {
                   type="time"
                   value={form.endTime}
                   onChange={(e) => setForm({ ...form, endTime: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 />
               </div>
 
+              {/* Lugar */}
               <div className="md:col-span-2">
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
-                  Lugar
+                  Lugar / Dirección
                 </label>
                 <input
+                  placeholder="Ej: Parque de los Hippies, Calle 60 con Cra 7"
                   value={form.location}
                   onChange={(e) => setForm({ ...form, location: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white placeholder-white/20 rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)]"
                 />
               </div>
 
+              {/* Descripción */}
               <div className="md:col-span-2">
                 <label className="block font-[family-name:var(--font-barlow)] text-white/50 text-xs uppercase tracking-widest mb-1.5">
                   Descripción
                 </label>
                 <textarea
                   rows={3}
+                  placeholder="Describe brevemente la actividad..."
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-[#08080F] border border-white/15 text-white rounded-sm focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)] resize-none"
+                  className="w-full px-4 py-3 bg-[#08080F] border border-white/15 text-white placeholder-white/20 rounded-lg focus:outline-none focus:border-[#556EFF] font-[family-name:var(--font-barlow)] resize-none"
                 />
               </div>
 
-              <div className="md:col-span-2 flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  id="featured"
-                  checked={form.featured}
-                  onChange={(e) => setForm({ ...form, featured: e.target.checked })}
-                  className="w-4 h-4 accent-[#556EFF]"
-                />
-                <label
-                  htmlFor="featured"
-                  className="font-[family-name:var(--font-barlow)] text-white/60 text-sm"
-                >
-                  Marcar como destacado
+              {/* Destacado */}
+              <div className="md:col-span-2">
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={form.featured}
+                    onChange={(e) => setForm({ ...form, featured: e.target.checked })}
+                    className="w-5 h-5 accent-[#556EFF] rounded"
+                  />
+                  <span className="font-[family-name:var(--font-barlow)] text-white/60 text-sm group-hover:text-white transition-colors">
+                    ⭐ Marcar como actividad destacada
+                  </span>
                 </label>
               </div>
 
-              <div className="md:col-span-2 flex gap-3">
+              {/* Acciones */}
+              <div className="md:col-span-2 flex gap-3 pt-2">
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold uppercase tracking-widest text-sm hover:bg-[#6B7FFF] transition-all rounded-sm disabled:opacity-50"
+                  className="flex-1 sm:flex-none px-8 py-3 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold uppercase tracking-widest text-sm hover:bg-[#6B7FFF] transition-all rounded-lg disabled:opacity-50"
                 >
-                  {saving ? "Guardando..." : editingId ? "Actualizar" : "Crear actividad"}
+                  {saving ? "Guardando..." : editingId ? "Guardar cambios" : "Publicar actividad"}
                 </button>
                 <button
                   type="button"
                   onClick={() => { setShowForm(false); setEditingId(null); setForm(EMPTY_FORM); }}
-                  className="px-6 py-2.5 border border-white/15 text-white/60 font-[family-name:var(--font-barlow)] text-sm hover:text-white hover:border-white/30 transition-all rounded-sm"
+                  className="px-6 py-3 border border-white/15 text-white/50 font-[family-name:var(--font-barlow)] text-sm hover:text-white hover:border-white/30 transition-all rounded-lg"
                 >
                   Cancelar
                 </button>
@@ -327,27 +399,43 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        {/* List header */}
+        <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="font-[family-name:var(--font-anton)] text-2xl text-white uppercase tracking-wider">
-              Actividades del año
+              Actividades publicadas
             </h1>
-            <p className="font-[family-name:var(--font-barlow)] text-white/40 text-sm mt-1">
-              {activities.length} actividades programadas
+            <p className="font-[family-name:var(--font-barlow)] text-white/30 text-sm mt-0.5">
+              {activities.length} {activities.length === 1 ? "actividad" : "actividades"} en la agenda
             </p>
           </div>
           {!showForm && (
             <button
               onClick={openNew}
-              className="px-5 py-2.5 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-semibold text-sm uppercase tracking-wider hover:bg-[#6B7FFF] transition-all rounded-sm"
+              className="px-5 py-3 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold text-sm uppercase tracking-wider hover:bg-[#6B7FFF] transition-all rounded-lg whitespace-nowrap"
             >
-              + Nueva actividad
+              + Nueva
             </button>
           )}
         </div>
 
-        {/* List */}
+        {/* Empty state */}
+        {activities.length === 0 && (
+          <div className="text-center py-24 border border-dashed border-white/10 rounded-2xl">
+            <p className="text-4xl mb-4">📋</p>
+            <p className="font-[family-name:var(--font-barlow)] text-white/40 text-base mb-4">
+              Aún no hay actividades publicadas.
+            </p>
+            <button
+              onClick={openNew}
+              className="px-6 py-3 bg-[#556EFF] text-white font-[family-name:var(--font-barlow)] font-bold text-sm uppercase tracking-wider hover:bg-[#6B7FFF] transition-all rounded-lg"
+            >
+              Publicar primera actividad
+            </button>
+          </div>
+        )}
+
+        {/* Activity list */}
         <div className="flex flex-col gap-3">
           {activities
             .slice()
@@ -355,33 +443,35 @@ export default function AdminPage() {
             .map((act) => (
               <div
                 key={act.id}
-                className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 bg-[#0F0F1E] border border-white/8 rounded-xl hover:border-white/15 transition-all"
+                className="flex flex-col sm:flex-row sm:items-center gap-4 p-5 bg-[#0F0F1E] border border-white/8 rounded-xl hover:border-white/20 transition-all"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 flex-wrap mb-1">
+                  <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="font-[family-name:var(--font-barlow)] text-white/40 text-xs uppercase tracking-widest">
-                      {act.date}
+                      📅 {formatDate(act.date)}
                     </span>
-                    <span className="px-2 py-0.5 bg-white/8 text-white/50 text-[10px] font-[family-name:var(--font-barlow)] uppercase tracking-widest rounded-full">
+                    <span className="px-2 py-0.5 bg-[#556EFF]/15 text-[#8B9FFF] text-[10px] font-[family-name:var(--font-barlow)] uppercase tracking-widest rounded-full">
                       {act.category}
                     </span>
                     {act.featured && (
-                      <span className="px-2 py-0.5 bg-[#556EFF]/20 text-[#556EFF] text-[10px] font-[family-name:var(--font-barlow)] uppercase tracking-widest rounded-full">
-                        Destacado
+                      <span className="px-2 py-0.5 bg-[#F2E85C]/15 text-[#F2E85C] text-[10px] font-[family-name:var(--font-barlow)] uppercase tracking-widest rounded-full">
+                        ⭐ Destacado
                       </span>
                     )}
                   </div>
                   <p className="font-[family-name:var(--font-anton)] text-white text-lg uppercase tracking-wide leading-tight">
                     {act.title}
                   </p>
-                  <p className="font-[family-name:var(--font-barlow)] text-white/40 text-sm mt-0.5">
-                    {act.time} – {act.endTime} · {act.location}
+                  <p className="font-[family-name:var(--font-barlow)] text-white/35 text-sm mt-0.5">
+                    {act.time && act.endTime ? `${act.time} – ${act.endTime}` : act.time || ""}
+                    {act.location ? ` · ${act.location}` : ""}
                   </p>
                 </div>
-                <div className="flex gap-3 flex-shrink-0">
+
+                <div className="flex gap-2 flex-shrink-0">
                   <button
                     onClick={() => openEdit(act)}
-                    className="px-4 py-2 border border-white/15 text-white/60 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:text-white hover:border-white/30 transition-all rounded-sm"
+                    className="px-4 py-2 border border-white/15 text-white/60 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:text-white hover:border-white/40 transition-all rounded-lg"
                   >
                     Editar
                   </button>
@@ -389,21 +479,21 @@ export default function AdminPage() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleDelete(act.id)}
-                        className="px-4 py-2 bg-red-500/80 text-white font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:bg-red-500 transition-all rounded-sm"
+                        className="px-4 py-2 bg-red-500 text-white font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:bg-red-400 transition-all rounded-lg"
                       >
-                        Confirmar
+                        Sí, eliminar
                       </button>
                       <button
                         onClick={() => setDeleteId(null)}
-                        className="px-4 py-2 border border-white/15 text-white/60 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:text-white transition-all rounded-sm"
+                        className="px-4 py-2 border border-white/15 text-white/50 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:text-white transition-all rounded-lg"
                       >
-                        Cancelar
+                        No
                       </button>
                     </div>
                   ) : (
                     <button
                       onClick={() => setDeleteId(act.id)}
-                      className="px-4 py-2 border border-red-500/30 text-red-400/60 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:border-red-500/60 hover:text-red-400 transition-all rounded-sm"
+                      className="px-4 py-2 border border-red-500/20 text-red-400/50 font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hover:border-red-500/50 hover:text-red-400 transition-all rounded-lg"
                     >
                       Eliminar
                     </button>
@@ -412,14 +502,6 @@ export default function AdminPage() {
               </div>
             ))}
         </div>
-
-        {activities.length === 0 && (
-          <div className="text-center py-20">
-            <p className="font-[family-name:var(--font-barlow)] text-white/30 text-base">
-              No hay actividades. Agrega la primera.
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
