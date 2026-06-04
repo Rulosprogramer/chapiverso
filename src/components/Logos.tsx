@@ -21,6 +21,7 @@ const LOGOS = [
   { src: "/logos-chapiverso/paralaje.png",       alt: "Paralaje" },
   { src: "/logos-chapiverso/ragweed.png",        alt: "Ragweed" },
   { src: "/logos-chapiverso/relevent.png",       alt: "Relevent" },
+  { src: "/logos-chapiverso/releventhall.png",   alt: "Relevent Music Hall" },
   { src: "/logos-chapiverso/sucursal.png",       alt: "Sucursal" },
   { src: "/logos-chapiverso/wapz.png",           alt: "Wapz" },
 ];
