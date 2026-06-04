@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 
 const MARQUEE_ITEMS = [
   "MÚSICA", "TEATRO", "MODA", "COMUNIDAD", "HUERTAS", "CIRCO", "BARES",
@@ -48,19 +49,19 @@ export default function Hero() {
           Bienvenidos a
         </p>
 
-        <h1
+        <div
           ref={titleRef}
-          className="font-[family-name:var(--font-anton)] text-[18vw] sm:text-[14vw] md:text-[12vw] lg:text-[10vw] text-white uppercase leading-[0.85] tracking-tight my-3"
-          style={{
-            textShadow: "0 4px 30px rgba(0,0,30,0.25)",
-          }}
+          className="w-[85vw] sm:w-[72vw] md:w-[62vw] lg:w-[54vw] xl:w-[46vw] my-4 drop-shadow-2xl"
         >
-          CHAPIVERSO
-        </h1>
-
-        <p className="font-[family-name:var(--font-barlow)] text-lg md:text-2xl text-[#F2E85C] italic mt-1 mb-6 font-medium">
-          Bogotá
-        </p>
+          <Image
+            src="/logo-chapiverso-white.png"
+            alt="Chapiverso Bogotá"
+            width={8334}
+            height={8334}
+            className="w-full h-auto"
+            priority
+          />
+        </div>
 
         {/* Date badges */}
         <div className="flex items-center gap-2 md:gap-3 mb-4 flex-wrap justify-center">
