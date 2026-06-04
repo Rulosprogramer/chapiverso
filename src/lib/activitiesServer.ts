@@ -1,5 +1,6 @@
 import { getDb } from "./db";
 import type { Activity } from "./activities";
+import { randomUUID } from "crypto";
 
 // Map a DB row → Activity type
 function rowToActivity(row: Record<string, unknown>): Activity {
@@ -29,11 +30,12 @@ export async function createActivity(
   data: Omit<Activity, "id">
 ): Promise<Activity> {
   const sql = getDb();
+  const id = randomUUID();
   const rows = await sql`
     INSERT INTO activities
-      (title, date, time, end_time, location, category, description, featured)
+      (id, title, date, time, end_time, location, category, description, featured)
     VALUES
-      (${data.title}, ${data.date}, ${data.time}, ${data.endTime},
+      (${id}, ${data.title}, ${data.date}, ${data.time}, ${data.endTime},
        ${data.location}, ${data.category}, ${data.description}, ${data.featured})
     RETURNING *
   `;
