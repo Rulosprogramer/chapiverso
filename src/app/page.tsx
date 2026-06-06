@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import VideoSection from "@/components/VideoSection";
 import About from "@/components/About";
 import MainEvent from "@/components/MainEvent";
 import HorariosPoster from "@/components/HorariosPoster";
@@ -20,6 +21,7 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero />
+        <VideoSection />
         <About />
         <MainEvent days={mainEventData.days} />
         <HorariosPoster />

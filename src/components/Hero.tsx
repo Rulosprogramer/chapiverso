@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-
 
 const MARQUEE_ITEMS = [
   "MÚSICA", "TEATRO", "MODA", "COMUNIDAD", "HUERTAS", "CIRCO", "BARES",
@@ -10,7 +9,9 @@ const MARQUEE_ITEMS = [
 ];
 
 export default function Hero() {
-  const titleRef = useRef<HTMLHeadingElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => {
     const el = titleRef.current;
@@ -24,24 +25,66 @@ export default function Hero() {
     }, 100);
   }, []);
 
+  function toggleMute() {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+  }
+
   return (
     <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-[#556EFF]">
-      {/* Subtle radial overlay for depth */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_15%,rgba(255,255,255,0.12),transparent_70%)]" />
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#3D4FE0]/60 to-transparent" />
+
+      {/* ── Background video ── */}
+      <video
+        ref={videoRef}
+        src="/versoreel-web.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
+
+      {/* ── Overlay: keeps text readable over the video ── */}
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <div className="absolute inset-0 bg-[#556EFF]/65" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_15%,rgba(255,255,255,0.08),transparent_70%)]" />
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#3D4FE0]/70 to-transparent" />
       </div>
 
-      {/* Decorative sparkles */}
-      <div className="absolute top-[15%] left-[8%] text-[#EF2EF2] text-5xl md:text-7xl select-none" style={{ animation: "pulseGlow 3s ease-in-out infinite" }}>✦</div>
-      <div className="absolute top-[25%] right-[6%] text-[#EF2EF2] text-3xl md:text-5xl select-none" style={{ animation: "pulseGlow 3s ease-in-out infinite 1.2s" }}>✦</div>
-      <div className="absolute top-[55%] left-[3%] text-[#F2E85C] text-xl md:text-3xl opacity-70 select-none" style={{ animation: "pulseGlow 4s ease-in-out infinite 0.5s" }}>★</div>
-      <div className="absolute top-[40%] right-[3%] text-[#F2E85C] text-2xl opacity-50 select-none" style={{ animation: "pulseGlow 4s ease-in-out infinite 2s" }}>★</div>
-      {/* Extra decorative dots */}
-      <div className="absolute top-[10%] right-[25%] text-white/20 text-4xl select-none">◦</div>
-      <div className="absolute top-[70%] left-[15%] text-white/15 text-3xl select-none">◦</div>
+      {/* ── Decorative sparkles ── */}
+      <div className="absolute z-[2] top-[15%] left-[8%] text-[#EF2EF2] text-5xl md:text-7xl select-none" style={{ animation: "pulseGlow 3s ease-in-out infinite" }}>✦</div>
+      <div className="absolute z-[2] top-[25%] right-[6%] text-[#EF2EF2] text-3xl md:text-5xl select-none" style={{ animation: "pulseGlow 3s ease-in-out infinite 1.2s" }}>✦</div>
+      <div className="absolute z-[2] top-[55%] left-[3%] text-[#F2E85C] text-xl md:text-3xl opacity-70 select-none" style={{ animation: "pulseGlow 4s ease-in-out infinite 0.5s" }}>★</div>
+      <div className="absolute z-[2] top-[40%] right-[3%] text-[#F2E85C] text-2xl opacity-50 select-none" style={{ animation: "pulseGlow 4s ease-in-out infinite 2s" }}>★</div>
 
-      {/* Institutional logos strip */}
+      {/* ── Mute / unmute button ── */}
+      <button
+        onClick={toggleMute}
+        aria-label={muted ? "Activar sonido" : "Silenciar"}
+        className="absolute z-20 bottom-20 right-5 md:right-8 flex items-center gap-2 px-3 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-all group"
+      >
+        {muted ? (
+          /* Speaker muted icon */
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        ) : (
+          /* Speaker on icon */
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        )}
+        <span className="font-[family-name:var(--font-barlow)] text-xs uppercase tracking-widest hidden sm:inline">
+          {muted ? "Sonido" : "Silenciar"}
+        </span>
+      </button>
+
+      {/* ── Institutional logos strip ── */}
       <div className="relative z-10 pt-20 md:pt-24 px-4 md:px-8 flex items-center justify-between">
         <Image
           src="/logo-mi-casa-white.png"
@@ -62,7 +105,7 @@ export default function Hero() {
         />
       </div>
 
-      {/* Main content */}
+      {/* ── Main content ── */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 pb-8 flex-1 justify-center">
         <p className="font-[family-name:var(--font-barlow)] text-sm md:text-base text-white/80 tracking-[0.25em] uppercase mb-1">
           Bienvenidos a
@@ -123,8 +166,8 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Marquee strip */}
-      <div className="relative z-10 overflow-hidden border-t border-b border-white/20 py-3 bg-[#3D4FE0]/40">
+      {/* ── Marquee strip ── */}
+      <div className="relative z-10 overflow-hidden border-t border-b border-white/20 py-3 bg-[#3D4FE0]/50">
         <div
           className="flex whitespace-nowrap"
           style={{ animation: "marquee 28s linear infinite" }}
