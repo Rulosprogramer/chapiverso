@@ -64,6 +64,7 @@ export default function Hero() {
         onClick={toggleMute}
         aria-label={muted ? "Activar sonido" : "Silenciar"}
         className="absolute z-20 bottom-20 right-5 md:right-8 flex items-center gap-2 px-3 py-2 rounded-full bg-black/40 backdrop-blur-sm border border-white/20 text-white hover:bg-black/60 transition-all group"
+        style={{ animation: "muteButtonPulse 2s ease-in-out infinite" }}
       >
         {muted ? (
           /* Speaker muted icon */
