@@ -6,6 +6,7 @@ import Hero from "@/components/Hero";
 import VideoSection from "@/components/VideoSection";
 import About from "@/components/About";
 import MainEvent from "@/components/MainEvent";
+import ChapiGirlsVideo from "@/components/ChapiGirlsVideo";
 import HorariosPoster from "@/components/HorariosPoster";
 import Schedule from "@/components/Schedule";
 import Logos from "@/components/Logos";
@@ -24,6 +25,7 @@ export default async function Home() {
         <VideoSection />
         <About />
         <MainEvent days={mainEventData.days} />
+        <ChapiGirlsVideo />
         <HorariosPoster />
         <Schedule activities={activities} />
         <Logos />
