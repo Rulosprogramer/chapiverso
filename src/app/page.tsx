@@ -9,6 +9,7 @@ import MainEvent from "@/components/MainEvent";
 import ChapiGirlsVideo from "@/components/ChapiGirlsVideo";
 import HorariosPoster from "@/components/HorariosPoster";
 import Schedule from "@/components/Schedule";
+import ChapiMap from "@/components/ChapiMap";
 import Logos from "@/components/Logos";
 import Footer from "@/components/Footer";
 import { readActivities } from "@/lib/activitiesServer";
@@ -28,6 +29,7 @@ export default async function Home() {
         <ChapiGirlsVideo />
         <HorariosPoster />
         <Schedule activities={activities} />
+        <ChapiMap />
         <Logos />
       </main>
       <Footer />
