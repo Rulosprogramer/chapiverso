@@ -112,19 +112,19 @@ export default function Hero() {
           Bienvenidos a
         </p>
 
-        <div
+        <h1
           ref={titleRef}
           className="w-[85vw] sm:w-[72vw] md:w-[62vw] lg:w-[54vw] xl:w-[46vw] mb-0 drop-shadow-2xl"
         >
           <Image
             src="/logo-chapiverso-white.png"
-            alt="Chapiverso Bogotá"
+            alt="Chapiverso Bogotá | Agenda Cultural de Chapinero Central"
             width={8334}
             height={8334}
             className="w-full h-auto"
             priority
           />
-        </div>
+        </h1>
 
         {/* Date badges */}
         <div className="flex flex-col items-center gap-1 mb-4 -mt-[5px]">

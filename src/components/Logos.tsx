@@ -1,29 +1,31 @@
 import Image from "next/image";
 
-const LOGOS = [
-  { src: "/logos-chapiverso/aguante.png",       alt: "Aguante" },
-  { src: "/logos-chapiverso/almejorestilo.png",  alt: "Al Mejor Estilo" },
-  { src: "/logos-chapiverso/artestudio.png",     alt: "Artestudio" },
+type Logo = { src: string; alt: string; instagram?: string };
+
+const LOGOS: Logo[] = [
+  { src: "/logos-chapiverso/aguante.png",       alt: "Aguante",                    instagram: "https://instagram.com/aguante_barriocol" },
+  { src: "/logos-chapiverso/almejorestilo.png",  alt: "Al Mejor Estilo",            instagram: "https://instagram.com/almejorestilomusic" },
+  { src: "/logos-chapiverso/artestudio.png",     alt: "Artestudio",                 instagram: "https://instagram.com/artestudiobog" },
   { src: "/logos-chapiverso/artfem.png",         alt: "Artfem" },
   { src: "/logos-chapiverso/cineclub.png",       alt: "Cineclub" },
-  { src: "/logos-chapiverso/circumbia.png",      alt: "Circumbia" },
-  { src: "/logos-chapiverso/conjuros.png",       alt: "Conjuros" },
-  { src: "/logos-chapiverso/crew.png",           alt: "Crew" },
+  { src: "/logos-chapiverso/circumbia.png",      alt: "Circumbia",                  instagram: "https://instagram.com/circumbia_balls" },
+  { src: "/logos-chapiverso/conjuros.png",       alt: "Conjuros",                   instagram: "https://instagram.com/conjuros_accesorios" },
+  { src: "/logos-chapiverso/crew.png",           alt: "Crew",                       instagram: "https://instagram.com/cr3w.house" },
   { src: "/logos-chapiverso/elparche.png",       alt: "El Parche" },
-  { src: "/logos-chapiverso/horda.png",          alt: "Horda" },
-  { src: "/logos-chapiverso/huerta.png",         alt: "Huerta" },
-  { src: "/logos-chapiverso/kairos.png",         alt: "Kairos" },
+  { src: "/logos-chapiverso/horda.png",          alt: "Horda",                      instagram: "https://instagram.com/horda_free" },
+  { src: "/logos-chapiverso/huerta.png",         alt: "Huerta",                     instagram: "https://instagram.com/huertascomunitariaschapinero" },
+  { src: "/logos-chapiverso/kairos.png",         alt: "Kairos",                     instagram: "https://instagram.com/kairostropic" },
   { src: "/logos-chapiverso/karen.png",          alt: "Karen" },
-  { src: "/logos-chapiverso/kimera.png",         alt: "Kimera" },
+  { src: "/logos-chapiverso/kimera.png",         alt: "Kimera",                     instagram: "https://instagram.com/kimera_crea" },
   { src: "/logos-chapiverso/latino.png",         alt: "Latino Power" },
-  { src: "/logos-chapiverso/lucky.png",          alt: "Lucky" },
+  { src: "/logos-chapiverso/lucky.png",          alt: "Lucky",                      instagram: "https://instagram.com/luckybarbogota" },
   { src: "/logos-chapiverso/mariachis.png",      alt: "Mariachis" },
   { src: "/logos-chapiverso/paralaje.png",       alt: "Paralaje" },
-  { src: "/logos-chapiverso/ragweed.png",        alt: "Ragweed" },
+  { src: "/logos-chapiverso/ragweed.png",        alt: "Ragweed",                    instagram: "https://instagram.com/ragw33dshop2" },
   { src: "/logos-chapiverso/relevent.png",       alt: "Relevent" },
-  { src: "/logos-chapiverso/releventhall.png",   alt: "Relevent Music Hall" },
-  { src: "/logos-chapiverso/sucursal.png",       alt: "Sucursal" },
-  { src: "/logos-chapiverso/wapz.png",           alt: "Wapz" },
+  { src: "/logos-chapiverso/releventhall.png",   alt: "Relevent Music Hall",        instagram: "https://instagram.com/releventmusichall" },
+  { src: "/logos-chapiverso/sucursal.png",       alt: "Sucursal",                   instagram: "https://instagram.com/lasucursalvenue" },
+  { src: "/logos-chapiverso/wapz.png",           alt: "Wapz",                       instagram: "https://instagram.com/graffiti_wapz" },
 ];
 
 export default function Logos() {
@@ -42,11 +44,8 @@ export default function Logos() {
 
         {/* Grid */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-3 md:gap-4">
-          {LOGOS.map((logo) => (
-            <div
-              key={logo.src}
-              className="bg-white rounded-xl p-2 md:p-3 flex items-center justify-center aspect-square shadow-lg hover:scale-105 transition-transform duration-200"
-            >
+          {LOGOS.map((logo) => {
+            const content = (
               <Image
                 src={logo.src}
                 alt={logo.alt}
@@ -54,8 +53,26 @@ export default function Logos() {
                 height={1000}
                 className="w-full h-full object-contain"
               />
-            </div>
-          ))}
+            );
+            return logo.instagram ? (
+              <a
+                key={logo.src}
+                href={logo.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white rounded-xl p-2 md:p-3 flex items-center justify-center aspect-square shadow-lg hover:scale-105 transition-transform duration-200"
+              >
+                {content}
+              </a>
+            ) : (
+              <div
+                key={logo.src}
+                className="bg-white rounded-xl p-2 md:p-3 flex items-center justify-center aspect-square shadow-lg hover:scale-105 transition-transform duration-200"
+              >
+                {content}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
